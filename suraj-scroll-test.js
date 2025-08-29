@@ -115,18 +115,20 @@ function showAnalysis() {
   setTimeout(() => analysisCard.scrollIntoView({ behavior: "smooth" }), 300);
 }
 
-// Function to initialize the quiz on page load
-function initializeQuiz() {
+// Page load hone par saare prashn render karein
+document.addEventListener("DOMContentLoaded", () => {
     renderAllQuestions();
-    startBtn.style.display = 'none';
-    onlineTestBtn.style.display = 'inline-block';
+});
+
+// Start button par click hone par timer shuru karein
+startBtn.onclick = () => {
+  if (!timerStarted) {
     timerInterval = setInterval(updateTimer, 1000);
     timerStarted = true;
-}
-
-// Call the initialization function when the page loads
-document.addEventListener("DOMContentLoaded", initializeQuiz);
-
+    startBtn.style.display = 'none';
+    onlineTestBtn.style.display = 'inline-block';
+  }
+};
 
 submitBtn.onclick = submitResults;
 resetBtn.onclick = () => location.reload();
