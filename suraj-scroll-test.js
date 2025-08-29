@@ -55,7 +55,12 @@ function updateTimer() {
 
 function submitResults() {
   clearInterval(timerInterval);
-  document.getElementById("quizBox").style.display = 'none';
+  // document.getElementById("quizBox").style.display = 'none';  <-- Is line ko hata diya gaya hai
+  
+  // Submit aur Reset buttons ko hide karein
+  submitBtn.style.display = 'none';
+  resetBtn.style.display = 'none';
+
   reportCard.style.display = 'block';
   analysisCard.style.display = 'none';
 
@@ -72,7 +77,7 @@ function submitResults() {
   const percent = ((correctCount / questions.length) * 100).toFixed(2);
   document.getElementById("percentage").textContent = percent;
 
-  const msg = percent >= 80 ? "Excellent Work" : percent >= 50 ? "Good Job" : "Keep Practicing";
+  const msg = percent >= 80 ? "Excellent Work" : percent >= 50 ? "Good Job - Keep Practicing"; percent >= 30 ? "Poor Performance" :
   document.getElementById("resultMessage").textContent = msg;
 
   quizLocked = questions.map(() => true);
@@ -115,12 +120,10 @@ function showAnalysis() {
   setTimeout(() => analysisCard.scrollIntoView({ behavior: "smooth" }), 300);
 }
 
-// Page load hone par saare prashn render karein
 document.addEventListener("DOMContentLoaded", () => {
     renderAllQuestions();
 });
 
-// Start button par click hone par timer shuru karein
 startBtn.onclick = () => {
   if (!timerStarted) {
     timerInterval = setInterval(updateTimer, 1000);
