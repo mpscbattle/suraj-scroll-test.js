@@ -9,7 +9,7 @@ const startBtn = document.getElementById("startBtn");
 const onlineTestBtn = document.getElementById("onlineTestBtn");
 
 let selectedAnswers = [], quizLocked = [], correctCount = 0;
-let timer = 1500, timerStarted = false, timerInterval;
+let timer = 1200, timerStarted = false, timerInterval;
 
 const questions = [];
 document.querySelectorAll(".question-data").forEach(qEl => {
@@ -17,7 +17,7 @@ document.querySelectorAll(".question-data").forEach(qEl => {
   const opts = Array.from(qEl.querySelectorAll(".opt")).map(el => el.innerText);
   const ans = parseInt(qEl.getAttribute("data-answer"));
   const explanation = qEl.getAttribute("data-explanation") || "";
-  questions.push({ question: q, options: opts, answer: ans, explanation : explanation });
+  questions.push({ question: q, options: opts, answer: ans, explanation: explanation });
 });
 
 function renderAllQuestions() {
@@ -55,9 +55,7 @@ function updateTimer() {
 
 function submitResults() {
   clearInterval(timerInterval);
-  // document.getElementById("quizBox").style.display = 'none';  <-- Is line ko hata diya gaya hai
-  
-  // Submit aur Reset buttons ko hide karein
+
   submitBtn.style.display = 'none';
   resetBtn.style.display = 'none';
 
@@ -77,7 +75,7 @@ function submitResults() {
   const percent = ((correctCount / questions.length) * 100).toFixed(2);
   document.getElementById("percentage").textContent = percent;
 
-  const msg = percent >= 80 ? "Excellent Work" : percent >= 50 ? "Good Job - Keep Practicing"; percent >= 30 ? "Poor Performance" :
+  const msg = percent >= 80 ? "Excellent Work" : percent >= 50 ? "Good Job" : "Keep Practicing";
   document.getElementById("resultMessage").textContent = msg;
 
   quizLocked = questions.map(() => true);
@@ -109,11 +107,11 @@ function showAnalysis() {
       html += `<div class='${cls}' style='margin: 5px 0;'>${opt}</div>`;
     });
     html += `<div class='feedback ${feedbackClass}'>${feedback}</div>`;
-    
+
     if (q.explanation) {
       html += `<div class='explanation-box'><b>Explanation:</b> ${q.explanation}</div>`;
     }
-  
+
     container.innerHTML += html;
   });
 
@@ -121,7 +119,7 @@ function showAnalysis() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    renderAllQuestions();
+  renderAllQuestions();
 });
 
 startBtn.onclick = () => {
@@ -136,3 +134,6 @@ startBtn.onclick = () => {
 submitBtn.onclick = submitResults;
 resetBtn.onclick = () => location.reload();
 viewAnalysisBtn.onclick = showAnalysis;
+
+// Make selectAnswer globally accessible
+window.selectAnswer = selectAnswer;
